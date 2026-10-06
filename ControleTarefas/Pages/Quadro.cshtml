@@ -1,0 +1,101 @@
+@page "/"
+@using ControleTarefas.Models
+@model ControleTarefas.Pages.QuadroModel
+@{
+    ViewData["Title"] = "Quadro";
+}
+
+<div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+    <h1 class="h3 mb-0">Quadro de tarefas</h1>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCadastro">
+        Nova tarefa
+    </button>
+</div>
+
+<div id="feedback-operacao" class="alert alert-danger d-none" role="alert"></div>
+
+<section id="kanban" class="row g-3" data-mover-url="@Url.Page("/Quadro", "Mover")">
+    <div class="col-12 col-lg-6 col-xxl-3">
+        <article class="kanban-coluna coluna-novo">
+            <header class="kanban-coluna-cabecalho">
+                <h2 class="h6 mb-0">Novo</h2>
+                <span class="badge text-bg-light js-contador">@(Model.PorStatus(StatusTarefa.Novo).Count())</span>
+            </header>
+            <div class="kanban-coluna-corpo js-lista-cards" data-status="Novo">
+                @foreach (var tarefa in Model.PorStatus(StatusTarefa.Novo))
+                {
+                    <partial name="_Cartao" model="tarefa" />
+                }
+                <p class="text-body-secondary small mb-0 js-aviso-vazio">Nenhuma tarefa nesta coluna.</p>
+            </div>
+        </article>
+    </div>
+    <div class="col-12 col-lg-6 col-xxl-3">
+        <article class="kanban-coluna coluna-andamento">
+            <header class="kanban-coluna-cabecalho">
+                <h2 class="h6 mb-0">Andamento</h2>
+                <span class="badge text-bg-light js-contador">@(Model.PorStatus(StatusTarefa.Andamento).Count())</span>
+            </header>
+            <div class="kanban-coluna-corpo js-lista-cards" data-status="Andamento">
+                @foreach (var tarefa in Model.PorStatus(StatusTarefa.Andamento))
+                {
+                    <partial name="_Cartao" model="tarefa" />
+                }
+                <p class="text-body-secondary small mb-0 js-aviso-vazio">Nenhuma tarefa nesta coluna.</p>
+            </div>
+        </article>
+    </div>
+    <div class="col-12 col-lg-6 col-xxl-3">
+        <article class="kanban-coluna coluna-bloqueado">
+            <header class="kanban-coluna-cabecalho">
+                <h2 class="h6 mb-0">Bloqueado</h2>
+                <span class="badge text-bg-light js-contador">@(Model.PorStatus(StatusTarefa.Bloqueado).Count())</span>
+            </header>
+            <div class="kanban-coluna-corpo js-lista-cards" data-status="Bloqueado">
+                @foreach (var tarefa in Model.PorStatus(StatusTarefa.Bloqueado))
+                {
+                    <partial name="_Cartao" model="tarefa" />
+                }
+                <p class="text-body-secondary small mb-0 js-aviso-vazio">Nenhuma tarefa nesta coluna.</p>
+            </div>
+        </article>
+    </div>
+    <div class="col-12 col-lg-6 col-xxl-3">
+        <article class="kanban-coluna coluna-concluido">
+            <header class="kanban-coluna-cabecalho">
+                <h2 class="h6 mb-0">Concluído</h2>
+                <span class="badge text-bg-light js-contador">@(Model.PorStatus(StatusTarefa.Concluido).Count())</span>
+            </header>
+            <div class="kanban-coluna-corpo js-lista-cards" data-status="Concluido">
+                @foreach (var tarefa in Model.PorStatus(StatusTarefa.Concluido))
+                {
+                    <partial name="_Cartao" model="tarefa" />
+                }
+                <p class="text-body-secondary small mb-0 js-aviso-vazio">Nenhuma tarefa nesta coluna.</p>
+            </div>
+        </article>
+    </div>
+</section>
+
+<form id="form-antiforgery" class="d-none" method="post">
+    @Html.AntiForgeryToken()
+</form>
+
+<div class="modal fade" id="modalCadastro" tabindex="-1" aria-labelledby="modalCadastroLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <form id="form-cadastro" method="post" asp-page-handler="Criar" class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalCadastroLabel" class="modal-title fs-5">Nova tarefa</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <div id="alerta-cadastro" class="alert alert-danger d-none" role="alert"></div>
+                <partial name="_Formulario" model="Model.Tarefa" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" id="botao-salvar-cadastro" class="btn btn-primary">Salvar tarefa</button>
+            </div>
+        </form>
+    </div>
+</div>

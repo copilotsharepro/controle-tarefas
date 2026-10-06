@@ -1,0 +1,27 @@
+@model ControleTarefas.Models.Tarefa
+
+<div class="mb-3">
+    <label asp-for="Titulo" class="form-label">Título</label>
+    <input asp-for="Titulo" class="form-control" maxlength="120" required />
+</div>
+
+<div class="mb-3">
+    <label asp-for="Descricao" class="form-label">Descrição</label>
+    <textarea asp-for="Descricao" class="form-control" rows="3"></textarea>
+</div>
+
+<div class="row g-3">
+    <div class="col-12 col-md-6">
+        <label asp-for="Data" class="form-label">Data</label>
+        <input asp-for="Data" type="date" class="form-control" required />
+    </div>
+    <div class="col-12 col-md-6">
+        <label asp-for="Status" class="form-label">Status</label>
+        <select asp-for="Status" class="form-select">
+            <option value="Novo">Novo</option>
+            <option value="Andamento">Andamento</option>
+            <option value="Bloqueado">Bloqueado</option>
+            <option value="Concluido">Concluído</option>
+        </select>
+    </div>
+</div>

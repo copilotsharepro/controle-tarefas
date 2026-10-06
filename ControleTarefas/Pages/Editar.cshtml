@@ -1,0 +1,26 @@
+@page "{id:int}"
+@model ControleTarefas.Pages.EditarModel
+@{
+    ViewData["Title"] = "Editar tarefa";
+}
+
+<h1 class="h3 mb-3">Editar tarefa</h1>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger" role="alert">
+                Corrija os campos obrigatórios para continuar.
+            </div>
+        }
+
+        <form method="post">
+            <partial name="_Formulario" model="Model.Tarefa" />
+            <div class="d-flex flex-wrap gap-2 mt-3">
+                <button type="submit" class="btn btn-primary">Salvar alterações</button>
+                <a asp-page="/Quadro" class="btn btn-outline-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>

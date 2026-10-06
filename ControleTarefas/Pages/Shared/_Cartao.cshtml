@@ -1,0 +1,23 @@
+@model ControleTarefas.Models.Tarefa
+
+<article class="card kanban-cartao js-cartao mb-2"
+         draggable="true"
+         data-tarefa-id="@Model.Id"
+         data-status="@Model.Status">
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start gap-2">
+            <h3 class="h6 card-title mb-1">@Model.Titulo</h3>
+            <span class="badge rounded-pill text-bg-secondary js-status-cartao">@Model.Status</span>
+        </div>
+        @if (!string.IsNullOrWhiteSpace(Model.Descricao))
+        {
+            <p class="card-text mb-2">@Model.Descricao</p>
+        }
+        <p class="small text-body-secondary mb-3">Data: @Model.Data.ToString("dd/MM/yyyy")</p>
+        <div class="d-flex gap-2">
+            <a asp-page="/Editar" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-primary">Editar</a>
+            <a asp-page="/Excluir" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-danger">Excluir</a>
+        </div>
+    </div>
+</article>
+
